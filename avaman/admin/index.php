@@ -24,7 +24,7 @@ require_once '../../../include/cp_header.php';
 include 'admin_header.php';
 xoops_cp_header();
 
-	$indexAdmin = new ModuleAdmin();
+    $indexAdmin = new ModuleAdmin();
 
     echo $indexAdmin->addNavigation('index.php');
     echo $indexAdmin->renderIndex();
