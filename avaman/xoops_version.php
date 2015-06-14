@@ -70,5 +70,3 @@ $modversion['hasComments'] = 0;
 // Notification
 
 $modversion['hasNotification'] = 0;
-
-?>

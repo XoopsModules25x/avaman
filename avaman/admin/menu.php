@@ -20,7 +20,6 @@
  * @version    $Id $
  */
 
-
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
 $path = dirname(dirname(dirname(dirname(__FILE__))));
@@ -32,7 +31,6 @@ $module          = $module_handler->getByDirname($dirname);
 $pathIcon32      = $module->getInfo('icons32');
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
 $pathLanguage    = $path . $pathModuleAdmin;
-
 
 if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
     $fileinc = $pathLanguage . '/language/english/main.php';

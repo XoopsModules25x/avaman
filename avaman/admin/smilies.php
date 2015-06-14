@@ -21,19 +21,17 @@
  */
 
 $avaman_allowed_exts = array(
-	'gif' => 'image/gif' ,
-	'jpg' => 'image/jpeg' ,
-	'jpeg' => 'image/jpeg' ,
-	'png' => 'image/png' ,
+    'gif' => 'image/gif' ,
+    'jpg' => 'image/jpeg' ,
+    'jpeg' => 'image/jpeg' ,
+    'png' => 'image/png' ,
 ) ;
 $realmyname = 'smilies.php' ;
-
 
 include_once( '../../../include/cp_header.php' ) ;
 include_once "../include/gtickets.php" ;
 include_once 'admin_header.php';
 $indexAdmin = new ModuleAdmin();
-
 
 $db =& XoopsDatabaseFactory::getDatabaseConnection();
 $myts =& MyTextSanitizer::getInstance() ;
@@ -44,132 +42,120 @@ $myts =& MyTextSanitizer::getInstance() ;
 
 if( ! empty( $_POST['modify_smilies'] ) ) {
 
-	// Ticket Check
-	if ( ! $xoopsGTicket->check() ) {
-		redirect_header(XOOPS_URL.'/',3,$xoopsGTicket->getErrors());
-	}
+    // Ticket Check
+    if ( ! $xoopsGTicket->check() ) {
+        redirect_header(XOOPS_URL.'/',3,$xoopsGTicket->getErrors());
+    }
 
-	// rename emotion
-	$smiles_ids = array() ;
-	if( is_array( @$_POST['emotions'] ) ) {
-		foreach( $_POST['emotions'] as $smiles_id => $emotion ) {
-			$smiles_id = intval( $smiles_id ) ;
-			$db->query( "UPDATE ".$db->prefix("smiles")." SET emotion='".$myts->addSlashes($emotion)."' WHERE id=".intval($smiles_id) ) ;
-			$smiles_ids[] = $smiles_id ;
-		}
-	}
+    // rename emotion
+    $smiles_ids = array() ;
+    if( is_array( @$_POST['emotions'] ) ) {
+        foreach( $_POST['emotions'] as $smiles_id => $emotion ) {
+            $smiles_id = intval( $smiles_id ) ;
+            $db->query( "UPDATE ".$db->prefix("smiles")." SET emotion='".$myts->addSlashes($emotion)."' WHERE id=".intval($smiles_id) ) ;
+            $smiles_ids[] = $smiles_id ;
+        }
+    }
 
-	// code
-	foreach( $smiles_ids as $smiles_id ) {
-		$db->query( "UPDATE ".$db->prefix("smiles")." SET code='".$myts->addSlashes(@$_POST['codes'][$smiles_id])."' WHERE id=$smiles_id" ) ;
-	}
+    // code
+    foreach( $smiles_ids as $smiles_id ) {
+        $db->query( "UPDATE ".$db->prefix("smiles")." SET code='".$myts->addSlashes(@$_POST['codes'][$smiles_id])."' WHERE id=$smiles_id" ) ;
+    }
 
-	// display
-	foreach( $smiles_ids as $smiles_id ) {
-		if( empty( $_POST['displays'][$smiles_id] ) ) {
-			$db->query( "UPDATE ".$db->prefix("smiles")." SET display=0 WHERE id=$smiles_id" ) ;
-		} else {
-			$db->query( "UPDATE ".$db->prefix("smiles")." SET display=1 WHERE id=$smiles_id" ) ;
-		}
-	}
+    // display
+    foreach( $smiles_ids as $smiles_id ) {
+        if( empty( $_POST['displays'][$smiles_id] ) ) {
+            $db->query( "UPDATE ".$db->prefix("smiles")." SET display=0 WHERE id=$smiles_id" ) ;
+        } else {
+            $db->query( "UPDATE ".$db->prefix("smiles")." SET display=1 WHERE id=$smiles_id" ) ;
+        }
+    }
 
-	// delete
-	foreach( $smiles_ids as $smiles_id ) {
-		if( ! empty( $_POST['deletes'][$smiles_id] ) ) {
-			$result = $db->query( "SELECT smile_url FROM ".$db->prefix("smiles")." WHERE id=$smiles_id" ) ;
-			if( $result ) {
-				list( $file ) = $db->fetchRow( $result ) ;
-				if( strstr( $file , '..' ) ) die( '.. found.' ) ;
-				@unlink( XOOPS_UPLOAD_PATH . '/' . $file ) ;
-				$db->query( "DELETE FROM ".$db->prefix("smiles")." WHERE id=$smiles_id" ) ;
-			}
-		}
-	}
+    // delete
+    foreach( $smiles_ids as $smiles_id ) {
+        if( ! empty( $_POST['deletes'][$smiles_id] ) ) {
+            $result = $db->query( "SELECT smile_url FROM ".$db->prefix("smiles")." WHERE id=$smiles_id" ) ;
+            if( $result ) {
+                list( $file ) = $db->fetchRow( $result ) ;
+                if( strstr( $file , '..' ) ) die( '.. found.' ) ;
+                @unlink( XOOPS_UPLOAD_PATH . '/' . $file ) ;
+                $db->query( "DELETE FROM ".$db->prefix("smiles")." WHERE id=$smiles_id" ) ;
+            }
+        }
+    }
 
-	redirect_header( $realmyname , 2 , _AM_AVAMAN_DBUPDATED ) ;
-	exit ;
+    redirect_header( $realmyname , 2 , _AM_AVAMAN_DBUPDATED ) ;
+    exit ;
 }
-
 
 // ARCHIVE UPLOAD
 if( ! empty( $_FILES['upload_archive']['tmp_name'] ) && is_uploaded_file( $_FILES['upload_archive']['tmp_name'] ) ) {
 
-	// extract stage
-	$orig_filename4check = strtolower( $_FILES['upload_archive']['name'] ) ;
-	$orig_ext4check = substr( $orig_filename4check , strrpos( $orig_filename4check , '.' ) + 1 ) ;
-	if( $orig_ext4check == 'zip' ) {
-	
-		// zip
-		include_once dirname(dirname(__FILE__)).'/include/Archive_Zip.php' ;
-		$reader = new Archive_Zip( $_FILES['upload_archive']['tmp_name'] ) ;
-		$files = $reader->extract( array( 'extract_as_string' => true ) ) ;
-		if( ! is_array( @$files ) ) die( $reader->errorName() ) ;
-	
-	} else if( $orig_ext4check == 'tar' || $orig_ext4check == 'tgz' || $orig_ext4check == 'gz' ) {
-	
-		// tar or tgz or tar.gz
-		include_once XOOPS_ROOT_PATH.'/class/class.tar.php' ;
-		$tar = new tar() ;
-		$tar->openTar( $_FILES['upload_archive']['tmp_name'] ) ;
-		$files = array() ;
-		foreach( $tar->files as $id => $info ) {
-			$files[] = array(
-				'filename' => $info['name'] ,
-				'mtime' => $info['time'] ,
-				'content' => $info['file'] ,
-			) ;
-		}
-		if( empty( $files ) ) die( _AM_AVAMAN_ERR_INVALIDARCHIVE ) ;
+    // extract stage
+    $orig_filename4check = strtolower( $_FILES['upload_archive']['name'] ) ;
+    $orig_ext4check = substr( $orig_filename4check , strrpos( $orig_filename4check , '.' ) + 1 ) ;
+    if( $orig_ext4check == 'zip' ) {
+    
+        // zip
+        include_once dirname(dirname(__FILE__)).'/include/Archive_Zip.php' ;
+        $reader = new Archive_Zip( $_FILES['upload_archive']['tmp_name'] ) ;
+        $files = $reader->extract( array( 'extract_as_string' => true ) ) ;
+        if( ! is_array( @$files ) ) die( $reader->errorName() ) ;
+    
+    } else if( $orig_ext4check == 'tar' || $orig_ext4check == 'tgz' || $orig_ext4check == 'gz' ) {
+    
+        // tar or tgz or tar.gz
+        include_once XOOPS_ROOT_PATH.'/class/class.tar.php' ;
+        $tar = new tar() ;
+        $tar->openTar( $_FILES['upload_archive']['tmp_name'] ) ;
+        $files = array() ;
+        foreach( $tar->files as $id => $info ) {
+            $files[] = array(
+                'filename' => $info['name'] ,
+                'mtime' => $info['time'] ,
+                'content' => $info['file'] ,
+            ) ;
+        }
+        if( empty( $files ) ) die( _AM_AVAMAN_ERR_INVALIDARCHIVE ) ;
 
-	} else if( ! empty( $avaman_allowed_exts[$orig_ext4check] ) ) {
-	
-		// a single image file
-		$files = array() ;
-		$files[] = array(
-			'filename' => $_FILES['upload_archive']['name'] ,
-			'mtime' => time() ,
-			'content' => function_exists( 'file_get_contents' ) ? file_get_contents( $_FILES['upload_archive']['tmp_name'] ) : implode( file( $_FILES['upload_archive']['tmp_name'] ) ) ,
-		) ;
-	} else {
-		die( _AM_AVAMAN_INVALIDEXT ) ;
-	}
+    } else if( ! empty( $avaman_allowed_exts[$orig_ext4check] ) ) {
+    
+        // a single image file
+        $files = array() ;
+        $files[] = array(
+            'filename' => $_FILES['upload_archive']['name'] ,
+            'mtime' => time() ,
+            'content' => function_exists( 'file_get_contents' ) ? file_get_contents( $_FILES['upload_archive']['tmp_name'] ) : implode( file( $_FILES['upload_archive']['tmp_name'] ) ) ,
+        ) ;
+    } else {
+        die( _AM_AVAMAN_INVALIDEXT ) ;
+    }
 
-	// import stage
-	$imported = 0 ;
-	foreach( $files as $file ) {
-	
-		if( ! empty( $file['folder'] ) ) continue ;
-		$file_pos = strrpos( $file['filename'] , '/' ) ;
-		$file_name = $file_pos === false ? $file['filename'] : substr( $file['filename'] , $file_pos + 1 ) ;
-		$ext_pos = strrpos( $file_name , '.' ) ;
-		if( $ext_pos === false ) continue ;
-		$ext = strtolower( substr( $file_name , $ext_pos + 1 ) ) ;
-		if( empty( $avaman_allowed_exts[$ext] ) ) continue ;
-		$file_node = substr( $file_name , 0 , $ext_pos ) ;
-		$save_file_name = uniqid( 'smil' ) . '.' . $ext ;
-		$fw = fopen( XOOPS_UPLOAD_PATH.'/'.$save_file_name , "w" ) ;
-		if( ! $fw ) continue ;
-		@fwrite( $fw , $file['content'] ) ;
-		@fclose( $fw ) ;
-		$db->query( "INSERT INTO ".$db->prefix("smiles")." SET smile_url='".addslashes($save_file_name)."', code='".addslashes(rawurldecode($file_node))."', display=0, emotion=''" ) ;
+    // import stage
+    $imported = 0 ;
+    foreach( $files as $file ) {
+    
+        if( ! empty( $file['folder'] ) ) continue ;
+        $file_pos = strrpos( $file['filename'] , '/' ) ;
+        $file_name = $file_pos === false ? $file['filename'] : substr( $file['filename'] , $file_pos + 1 ) ;
+        $ext_pos = strrpos( $file_name , '.' ) ;
+        if( $ext_pos === false ) continue ;
+        $ext = strtolower( substr( $file_name , $ext_pos + 1 ) ) ;
+        if( empty( $avaman_allowed_exts[$ext] ) ) continue ;
+        $file_node = substr( $file_name , 0 , $ext_pos ) ;
+        $save_file_name = uniqid( 'smil' ) . '.' . $ext ;
+        $fw = fopen( XOOPS_UPLOAD_PATH.'/'.$save_file_name , "w" ) ;
+        if( ! $fw ) continue ;
+        @fwrite( $fw , $file['content'] ) ;
+        @fclose( $fw ) ;
+        $db->query( "INSERT INTO ".$db->prefix("smiles")." SET smile_url='".addslashes($save_file_name)."', code='".addslashes(rawurldecode($file_node))."', display=0, emotion=''" ) ;
 
-		$imported ++ ;
-	}
-	
-	redirect_header( $realmyname , 3 , sprintf( _AM_AVAMAN_FILEUPLOADED , $imported )  ) ;
-	exit ;
+        $imported ++ ;
+    }
+    
+    redirect_header( $realmyname , 3 , sprintf( _AM_AVAMAN_FILEUPLOADED , $imported )  ) ;
+    exit ;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 // Form Stage
 xoops_cp_header() ;
@@ -199,9 +185,9 @@ echo "
 	</tr>\n" ;
 
 while( list( $smiles_id , $code , $file , $emotion , $display ) = $db->fetchRow( $result ) ) {
-	$evenodd = @$evenodd == 'even' ? 'odd' : 'even' ;
+    $evenodd = @$evenodd == 'even' ? 'odd' : 'even' ;
 
-	echo "
+    echo "
 	<tr>
 		<td class='$evenodd' align='center'>$smiles_id</td>
 		<td class='$evenodd' align='center'><img src='".XOOPS_UPLOAD_URL.'/'.$file."' alt='' /></td>
