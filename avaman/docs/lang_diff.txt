@@ -1,8 +1,0 @@
-LANGUAGE DIFFERENCES
-=====================
-
-Below are language differences from a version to next version.
-
-in file /language/english/admin.php:
-//ModuleAdmin
-define('_AM_AVAMAN_MODULEADMIN_MISSING','Error: The ModuleAdmin class is missing. Please install the ModuleAdmin Class into /Frameworks (see /docs/readme.txt)');
