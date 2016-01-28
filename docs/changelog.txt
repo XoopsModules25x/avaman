@@ -1,29 +1,34 @@
-CHANGELOG:
-==================
+0.24 Beta 1        2015-01-23
+=================================
+- moved all images, CSS, and JS files to /assets (mamba)
+
+0.23                2012/05/22:
+=================================
+- some PSR-2 code formatting  (mamba)
 
 0.22 2012/05/22:
-=================
+=================================
 - converted to XOOPS ModuleAdmin GUI (mamba)
 
-0.21 (2006-04-06 )
-=================
+0.21                2006-04-06
+=================================
 - added select/deselect all
 - added polish (thx kurakbu) 0.21a
 - added italian (thx Defkon1) 0.21b
 - added persian (thx irmtfan) 0.21c
 - added spanish (thx debianus) 0.21d
 
-0.20 (2006-04-05)
-=================
+0.20                2006-04-05
+=================================
 - added smilies manager
 
-0.11  (2006-04-05)
-=================
+0.11                2006-04-05
+=================================
 - modified language constants
 - added a column of users
 - fixed a bug used avatar can be deleted
 - added submenu for 2.2.x (thx McDonald)
 
-0.10 (2006-04-04)
-=================
--the 1st implementation
+0.10                2006-04-04
+=================================
+- original release

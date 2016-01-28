@@ -12,7 +12,7 @@
 /**
  * Avaman module
  *
- * @copyright    The XOOPS Project (http://www.xoops.org)
+ * @copyright    XOOPS Project (http://xoops.org)
  * @license   {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @package    Avaman
  * @since      2.5.0
@@ -20,8 +20,8 @@
  * @version    $Id $
  */
 
-define('_MI_AVAMAN_MODULENAME','AVAMAN');
-define('_MI_AVAMAN_MODULEDESC','Managing system avatars and smilies');
+define('_MI_AVAMAN_MODULENAME', 'AVAMAN') ;
+define('_MI_AVAMAN_MODULEDESC', 'Managing system avatars and smilies') ;
 
-define('_MI_AVAMAN_AVATARMANAGER','Avatar Manager');
-define('_MI_AVAMAN_SMILIESMANAGER','Smilies Manager');
+define('_MI_AVAMAN_AVATARMANAGER', 'Avatar Manager') ;
+define('_MI_AVAMAN_SMILIESMANAGER', 'Smilies Manager') ;

@@ -12,7 +12,7 @@
 /*
  * Avaman module
  *
- * @copyright    The XOOPS Project (http://www.xoops.org)
+ * @copyright    XOOPS Project (http://xoops.org)
  * @license   {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @package    Avaman
  * @since      2.5.0
@@ -20,13 +20,13 @@
  * @version    $Id $
  */
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-$path = dirname(dirname(dirname(dirname(__FILE__))));
+$path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/mainfile.php';
 
-$dirname         = basename(dirname(dirname(__FILE__)));
-$module_handler  = xoops_gethandler('module');
+$dirname         = basename(dirname(__DIR__));
+$module_handler  = & xoops_gethandler('module');
 $module          = $module_handler->getByDirname($dirname);
 $pathIcon32      = $module->getInfo('icons32');
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
@@ -46,17 +46,17 @@ $adminmenu[$i]["title"] = _AM_MODULEADMIN_HOME;
 $adminmenu[$i]["link"]  = 'admin/index.php';
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
 
-$i++;
+++$i;
 $adminmenu[$i]["title"] = _MI_AVAMAN_AVATARMANAGER;
 $adminmenu[$i]["link"]  = 'admin/avatars.php';
 $adminmenu[$i]["icon"]  = $pathIcon32.'/penguin.png';
 
-$i++;
+++$i;
 $adminmenu[$i]["title"] = _MI_AVAMAN_SMILIESMANAGER;
 $adminmenu[$i]["link"]  = 'admin/smilies.php';
 $adminmenu[$i]["icon"]  = $pathIcon32.'/face-smile.png';
 
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
 $adminmenu[$i]["link"]  = 'admin/about.php';
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
