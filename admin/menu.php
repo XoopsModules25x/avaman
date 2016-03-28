@@ -26,7 +26,7 @@ $path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/mainfile.php';
 
 $dirname         = basename(dirname(__DIR__));
-$module_handler  = & xoops_gethandler('module');
+$module_handler  = xoops_getHandler('module');
 $module          = $module_handler->getByDirname($dirname);
 $pathIcon32      = $module->getInfo('icons32');
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
@@ -38,25 +38,27 @@ if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig
 
 include_once $fileinc;
 
-$adminmenu = array();
 
-$i= 1;
+$adminmenu[] = array(
+    'title' => _AM_MODULEADMIN_HOME,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32.'/home.png'
+);
 
-$adminmenu[$i]["title"] = _AM_MODULEADMIN_HOME;
-$adminmenu[$i]["link"]  = 'admin/index.php';
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
+$adminmenu[] = array(
+    'title' => _MI_AVAMAN_AVATARMANAGER,
+    'link'  => 'admin/avatars.php',
+    'icon'  => $pathIcon32.'/penguin.png'
+);
 
-++$i;
-$adminmenu[$i]["title"] = _MI_AVAMAN_AVATARMANAGER;
-$adminmenu[$i]["link"]  = 'admin/avatars.php';
-$adminmenu[$i]["icon"]  = $pathIcon32.'/penguin.png';
+$adminmenu[] = array(
+    'title' => _MI_AVAMAN_SMILIESMANAGER,
+    'link'  => 'admin/smilies.php',
+    'icon'  => $pathIcon32.'/face-smile.png'
+);
 
-++$i;
-$adminmenu[$i]["title"] = _MI_AVAMAN_SMILIESMANAGER;
-$adminmenu[$i]["link"]  = 'admin/smilies.php';
-$adminmenu[$i]["icon"]  = $pathIcon32.'/face-smile.png';
-
-++$i;
-$adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
-$adminmenu[$i]["link"]  = 'admin/about.php';
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
+$adminmenu[] = array(
+    'title' => _AM_MODULEADMIN_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32.'/about.png'
+);

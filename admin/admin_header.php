@@ -13,17 +13,19 @@
  * Avaman module
  *
  * @copyright    XOOPS Project (http://xoops.org)
- * @license   {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package    Avaman
- * @since      2.5.0
- * @author     GIJOE
- * @version    $Id $
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @package      Avaman
+ * @since        2.5.0
+ * @author       GIJOE
+ * @version      $Id $
  */
 
 $xoopsPath = dirname(dirname(dirname(__DIR__)));
 include_once $xoopsPath . '/mainfile.php';
 include_once $xoopsPath . '/include/cp_functions.php';
 require_once $xoopsPath . '/include/cp_header.php';
+
+xoops_load('XoopsRequest');
 
 global $xoopsModule;
 
@@ -33,10 +35,8 @@ $moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
 xoops_loadLanguage('admin', $moduleDirName);
 xoops_loadLanguage('modinfo', $moduleDirName);
 xoops_loadLanguage('main', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
 
-$pathIcon16 = '../'.$xoopsModule->getInfo('icons16');
-$pathIcon32 = '../'.$xoopsModule->getInfo('icons32');
-$pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
-
-include_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
+$pathIcon16      = '../' . $xoopsModule->getInfo('icons16');
+$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
+$pathModuleAdmin =& $xoopsModule->getInfo('dirmoduleadmin');
+include_once $GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php');
