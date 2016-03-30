@@ -12,19 +12,14 @@
 /**
  * Avaman module
  *
- * @copyright    The XOOPS Project (http://www.xoops.org)
- * @license   {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package    Avaman
- * @since      2.5.0
- * @author     GIJOE
- * @version    $Id $
+ * @copyright    XOOPS Project (http://xoops.org)
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @package      Avaman
+ * @since        2.5.0
+ * @author       GIJOE
+ * @version      $Id $
  */
 
-echo "<div class='adminfooter'>\n"
-    ."  <div style='text-align: center;'>\n"
-    ."    <a href='http://www.xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n"
-    ."  </div>\n"
-    ."  " . _AM_MODULEADMIN_ADMIN_FOOTER . "\n"
-    ."</div>";
+echo "<div class='adminfooter'>\n" . "  <div style='text-align: center;'>\n" . "    <a href='http://xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n" . "  </div>\n" . '  ' . _AM_MODULEADMIN_ADMIN_FOOTER . "\n" . '</div>';
 
 xoops_cp_footer();
