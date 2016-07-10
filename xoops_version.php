@@ -17,19 +17,18 @@
  * @package      Avaman
  * @since        2.5.0
  * @author       GIJOE
- * @version      $Id $
  */
 
 $modversion['name']        = _MI_AVAMAN_MODULENAME;
 $modversion['version']     = '0.25';
 $modversion['description'] = _MI_AVAMAN_MODULEDESC;
 $modversion['credits']     = 'PEAK Corp.';
-$modversion['author']      = 'GIJ=CHECKMATE<br />PEAK Corp.(http://www.peak.ne.jp/)';
+$modversion['author']      = 'GIJ=CHECKMATE<br>PEAK Corp.(http://www.peak.ne.jp/)';
 $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0';
 $modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html';
 $modversion['official']    = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-$modversion['image']       = 'assets/images/logo_module.png';
+$modversion['image']       = 'assets/images/logoModule.png';
 $modversion['dirname']     = basename(__DIR__);
 
 $modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
@@ -37,8 +36,8 @@ $modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
 $modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
 
 //about
-$modversion['module_status']       = 'RC 1';
-$modversion['release_date']        = '2016/03/27';
+$modversion['module_status']       = 'Final';
+$modversion['release_date']        = '2016/07/09';
 $modversion['demo_site_url']       = '';
 $modversion['demo_site_name']      = '';
 $modversion['module_website_url']  = 'www.xoops.org';
@@ -48,7 +47,7 @@ $modversion['author_website_name'] = 'GIJOE';
 $modversion['min_php']             = '5.5';
 $modversion['min_xoops']           = '2.5.8';
 $modversion['min_db']              = array('mysql' => '5.0.7', 'mysqli' => '5.0.7');
-$modversion['min_admin']           = '1.1';
+$modversion['min_admin']           = '1.2';
 
 // Admin things
 $modversion['hasAdmin']    = 1;

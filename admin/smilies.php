@@ -17,14 +17,14 @@
  * @package      Avaman
  * @since        2.5.0
  * @author       GIJOE
- * @version      $Id $
  */
 
 $avaman_allowed_exts = array(
     'gif'  => 'image/gif',
     'jpg'  => 'image/jpeg',
     'jpeg' => 'image/jpeg',
-    'png'  => 'image/png');
+    'png'  => 'image/png'
+);
 $realmyname          = 'smilies.php';
 
 include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
@@ -115,7 +115,8 @@ if (!empty($_FILES['upload_archive']['tmp_name']) && is_uploaded_file($_FILES['u
             $files[] = array(
                 'filename' => $info['name'],
                 'mtime'    => $info['time'],
-                'content'  => $info['file']);
+                'content'  => $info['file']
+            );
         }
         if (empty($files)) {
             die(_AM_AVAMAN_ERR_INVALIDARCHIVE);
@@ -127,7 +128,8 @@ if (!empty($_FILES['upload_archive']['tmp_name']) && is_uploaded_file($_FILES['u
         $files[] = array(
             'filename' => $_FILES['upload_archive']['name'],
             'mtime'    => time(),
-            'content'  => function_exists('file_get_contents') ? file_get_contents($_FILES['upload_archive']['tmp_name']) : implode(file($_FILES['upload_archive']['tmp_name'])));
+            'content'  => function_exists('file_get_contents') ? file_get_contents($_FILES['upload_archive']['tmp_name']) : implode(file($_FILES['upload_archive']['tmp_name']))
+        );
     } else {
         die(_AM_AVAMAN_INVALIDEXT);
     }
@@ -177,7 +179,7 @@ $result = $db->query($sql);
 echo "
 <form action='$realmyname' id='avaman_upload' method='post' enctype='multipart/form-data' class='odd'>
     <label for='upload_archive'>" . _AM_AVAMAN_UPLOAD . "</label>
-    <br />
+    <br>
     <input type='file' id='upload_archive' name='upload_archive' size='60' />
     <input type='submit' value='" . _SUBMIT . "' />
 </form>
@@ -189,7 +191,8 @@ echo "
         <th>' . _AM_AVAMAN_TH_CODE . '</th>
         <th>' . _AM_AVAMAN_TH_EMOTION . '</th>
         <th>' . _AM_AVAMAN_TH_SMILEDISPLAY . '</th>
-        <th>' . _AM_AVAMAN_TH_DELETE . "<input type='checkbox' name='selectall' onclick=\"with(document.avaman_list){for (i=0;i<length;i++) {if(elements[i].type=='checkbox'&&elements[i].disabled==false&&elements[i].name.indexOf('deletes')>=0) {elements[i].checked=this.checked;}}}\" title='" . _AM_AVAMAN_CB_SELECTALL . "' /></th>
+        <th>' . _AM_AVAMAN_TH_DELETE . "<input type='checkbox' name='selectall' onclick=\"with(document.avaman_list){for (i=0;i<length;i++) {if(elements[i].type=='checkbox'&&elements[i].disabled==false&&elements[i].name.indexOf('deletes')>=0) {elements[i].checked=this.checked;}}}\" title='"
+     . _AM_AVAMAN_CB_SELECTALL . "' /></th>
     </tr>\n";
 
 while (list($smiles_id, $code, $file, $emotion, $display) = $db->fetchRow($result)) {

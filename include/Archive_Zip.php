@@ -184,7 +184,8 @@ class Archive_Zip
                 'no_compression'  => false,
                 'add_path'        => '',
                 'remove_path'     => '',
-                'remove_all_path' => false)) != 1
+                'remove_all_path' => false
+            )) != 1
         ) {
             return 0;
         }
@@ -253,7 +254,8 @@ class Archive_Zip
                 'remove_path'       => '',
                 'remove_all_path'   => false,
                 'callback_pre_add'  => '',
-                'callback_post_add' => '')) != 1
+                'callback_post_add' => ''
+            )) != 1
         ) {
             return 0;
         }
@@ -411,7 +413,8 @@ class Archive_Zip
                 'by_name'               => '',
                 'by_index'              => '',
                 'by_ereg'               => '',
-                'by_preg'               => '')) != 1
+                'by_preg'               => ''
+            )) != 1
         ) {
             return 0;
         }
@@ -464,7 +467,8 @@ class Archive_Zip
                 'by_name'  => '',
                 'by_index' => '',
                 'by_ereg'  => '',
-                'by_preg'  => '')) != 1
+                'by_preg'  => ''
+            )) != 1
         ) {
             return 0;
         }
@@ -655,7 +659,7 @@ class Archive_Zip
         }
 
         // ----- Search the name form the code value
-        $v_key = array_search($this->_error_code, $v_error_list, true);
+        $v_key   = array_search($this->_error_code, $v_error_list, true);
         $v_value = 'NoName';
         if ($v_key != false) {
             $v_value = $v_key;
@@ -1502,7 +1506,9 @@ class Archive_Zip
         $v_mdate = (($v_date['year'] - 1980) << 9) + ($v_date['mon'] << 5) + $v_date['mday'];
 
         // ----- Packed data
-        $v_binary_data = pack('VvvvvvvVVVvvvvvVV', 0x02014b50, $p_header['version'], $p_header['version_extracted'], $p_header['flag'], $p_header['compression'], $v_mtime, $v_mdate, $p_header['crc'], $p_header['compressed_size'], $p_header['size'], strlen($p_header['stored_filename']), $p_header['extra_len'], $p_header['comment_len'], $p_header['disk'], $p_header['internal'], $p_header['external'], $p_header['offset']);
+        $v_binary_data =
+            pack('VvvvvvvVVVvvvvvVV', 0x02014b50, $p_header['version'], $p_header['version_extracted'], $p_header['flag'], $p_header['compression'], $v_mtime, $v_mdate, $p_header['crc'], $p_header['compressed_size'], $p_header['size'], strlen($p_header['stored_filename']), $p_header['extra_len'],
+                 $p_header['comment_len'], $p_header['disk'], $p_header['internal'], $p_header['external'], $p_header['offset']);
 
         // ----- Write the 42 bytes of the header in the zip file
         fwrite($this->_zip_fd, $v_binary_data, 46);
@@ -1713,7 +1719,7 @@ class Archive_Zip
         if (($p_path !== './') && ($p_path !== '/')) {
             // ----- Look for the path end '/'
             while (substr($p_path, -1) === '/') {
-                $p_path = substr($p_path, 0, - 1);
+                $p_path = substr($p_path, 0, -1);
             }
         }
 
@@ -1780,7 +1786,9 @@ class Archive_Zip
                     if (substr($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j], -1) === '/') {
 
                         // ----- Look if the directory is in the filename path
-                        if ((strlen($v_header['stored_filename']) > strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) && (substr($v_header['stored_filename'], 0, strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) == $p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) {
+                        if ((strlen($v_header['stored_filename']) > strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j]))
+                            && (substr($v_header['stored_filename'], 0, strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) == $p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])
+                        ) {
                             $v_extract = true;
                         }
                     } // ----- Look for a filename
@@ -2596,9 +2604,13 @@ class Archive_Zip
                     if (substr($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j], -1) === '/') {
 
                         // ----- Look if the directory is in the filename path
-                        if ((strlen($v_header_list[$v_nb_extracted]['stored_filename']) > strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) && (substr($v_header_list[$v_nb_extracted]['stored_filename'], 0, strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) == $p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) {
+                        if ((strlen($v_header_list[$v_nb_extracted]['stored_filename']) > strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j]))
+                            && (substr($v_header_list[$v_nb_extracted]['stored_filename'], 0, strlen($p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) == $p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])
+                        ) {
                             $v_found = true;
-                        } elseif ((($v_header_list[$v_nb_extracted]['external'] & 0x00000010) == 0x00000010) /* Indicates a folder */ && ($v_header_list[$v_nb_extracted]['stored_filename'] . '/' == $p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])) {
+                        } elseif ((($v_header_list[$v_nb_extracted]['external'] & 0x00000010) == 0x00000010) /* Indicates a folder */
+                                  && ($v_header_list[$v_nb_extracted]['stored_filename'] . '/' == $p_params[ARCHIVE_ZIP_PARAM_BY_NAME][$j])
+                        ) {
                             $v_found = true;
                         }
                     } // ----- Look for a filename
@@ -2795,7 +2807,7 @@ class Archive_Zip
 
         // ----- Remove the final '/'
         if ($p_is_dir && (substr($p_dir, -1) === '/')) {
-            $p_dir = substr($p_dir, 0, - 1);
+            $p_dir = substr($p_dir, 0, -1);
         }
 
         // ----- Check the directory availability
@@ -3110,7 +3122,8 @@ class Archive_Zip
             'callback_pre_add',
             'callback_post_add',
             'callback_pre_extract',
-            'callback_post_extract');
+            'callback_post_extract'
+        );
         for ($i = 0, $iMax = count($v_callback_list); $i < $iMax; ++$i) {
             $v_key = $v_callback_list[$i];
             if (isset($p_params[$v_key]) && ($p_params[$v_key] != '')) {
