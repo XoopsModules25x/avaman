@@ -17,7 +17,6 @@
  * @package      Avaman
  * @since        2.5.0
  * @author       GIJOE
- * @version      $Id $
  */
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';

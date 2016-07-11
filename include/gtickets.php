@@ -83,6 +83,9 @@ if (!class_exists('XoopsGTicket')) {
         {
             global $xoopsModule;
 
+            if ('' === $salt) {
+                $salt= '$2y$07$' . str_replace('+', '.', base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)));
+            }
             // create a token
             list($usec, $sec) = explode(' ', microtime());
             $appendix_salt       = empty($_SERVER['PATH']) ? XOOPS_DB_NAME : $_SERVER['PATH'];
@@ -111,7 +114,8 @@ if (!class_exists('XoopsGTicket')) {
                 'expire'  => time() + $timeout,
                 'referer' => $referer,
                 'area'    => $area,
-                'token'   => $token);
+                'token'   => $token
+            );
 
             // paid md5ed token as a ticket
             return md5($token . XOOPS_DB_PREFIX);
@@ -239,7 +243,7 @@ if (!class_exists('XoopsGTicket')) {
             if ($ashtml) {
                 $ret = '';
                 foreach ($this->_errors as $msg) {
-                    $ret .= "$msg<br />\n";
+                    $ret .= "$msg<br>\n";
                 }
             } else {
                 $ret = $this->_errors;
